@@ -12,8 +12,8 @@ pipeline was written in Snakemake v5.3 (Köster *et al.*, 2012) and uses the pac
 
 ### Prepare for running Snakemake
 
-Snakemake is based on Python3. Next to the standard modules, the following additional modules are
-used and are required to be installed prior to running the workflow.
+Snakemake is based on **Python3**. Next to the standard modules, the following additional modules
+are used and are required to be installed prior to running the workflow.
 
   - snakemake
   - tqdm
@@ -63,7 +63,7 @@ All results necessary to reproduce the figure can be found in the sub-folder `re
 
 ### Summary of contig stats assembled in this study
 
-To obtain panel a of the Extended Data Figure 9, we summarised the contigs of high and
+To obtain **panel a** of the Extended Data Figure 9, we summarised the contigs of high and
 medium quality bins assembled in this study regarding their contig length, coverage, amount of
 ancient DNA damage on the 5' terminal base, GC content, and the mean read length of the short-read
 sequencing data aligning against these contigs.
@@ -75,10 +75,9 @@ The data is provided in `results/empiricalbins_summarystats.tsv`.
 ## Generating the Extended Data Figure
 
 The Extended Data Figure was generated using the programming language R using the R package
-`ggplot2` within the larger [tidyverse](https://www.tidyverse.org/). The three addittional R
-packages that were used were `data.table`, `santoku` and `patchwork`, which are all available via
+`ggplot2` within the larger [tidyverse](https://www.tidyverse.org/) framework. The three additional
+R packages that were used were `data.table`, `santoku` and `patchwork`, which are all available via
 CRAN.
 
-The code is available within a R Markdown document in the sub-folder `analysis`. We additionally
-provide the plots either as a [HTML page](analysis/analysis.html) or [Markdown
-document](analysis/analysis.md) for viewing in the web browser or directly in GitHub.
+The code is available within a R Markdown document in the sub-folder `analysis`. The markdown report
+for viewing the figures directly on GitHub can be found [here](analysis/analysis.md)
