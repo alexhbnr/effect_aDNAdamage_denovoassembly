@@ -33,6 +33,7 @@ wildcard_constraints:
 
 rule all:
     input:
+        "reference_genomes.done",
         "evaluation.done"
 
 #### Prepare reference genomes #####################################################################
