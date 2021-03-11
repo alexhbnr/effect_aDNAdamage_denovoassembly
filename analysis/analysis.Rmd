@@ -78,7 +78,7 @@ contiglength_plt <- ggplot(contiglength_stats,
 
 ```{r readlength}
 readlength_stats <- bin_stats %>%
-                    mutate(RL_bins = chop(meanRL,
+                    mutate(RL_bins = chop(mean_read_length,
                                           seq(0, 300, 25),
                                           drop = F)) %>%
                     group_by(RL_bins, .drop = F) %>%
@@ -116,8 +116,8 @@ coverage_plt <- ggplot(coverage_stats,
 
 ```{r damage}
 damage_stats <- bin_stats %>%
-                filter(!is.na(`CtoT-0`)) %>%
-                mutate(damage_bins = chop(`CtoT-0` * 100,
+                filter(!is.na(damage)) %>%
+                mutate(damage_bins = chop(damage * 100,
                                           c(0, 1, 2, 2.5, 3, 5, 10, 15, 20, 50, 100),
                                           drop = F)) %>%
                 group_by(damage_bins, .drop = F) %>%
@@ -159,8 +159,8 @@ wibowo_sumstats_plt
 
 **Extended Data Figure 9a**: **Overview of the number of assembled contigs per bin with respect to
 the contig length, the GC content, the coverage along the contig, and the CtoT substitution
-frequency on the terminal base at the 5' end of the sequencing data.** `r nrow(bin_stats)` from
-`r length(unique(bin_stats$binname))` medium or high quality bins were summarised.
+frequency on the terminal base at the 5' end of the sequencing data.** `r nrow(bin_stats)` contigs 
+from `r length(unique(bin_stats$binname))` medium or high quality bins were summarised.
 
 ## Panel b - Overview of the simulation scheme
 
@@ -277,6 +277,9 @@ sequencing using gargammel.**
 
 ## Panel c - Mismatch rate
 
+Next, we evaluated the mismatch rate observed when aligning the consensus sequences of the assembled
+contigs back to the reference genomes.
+
 ```{r mismatchrate_plt, fig.height = 3, fig.width = 7}
 # Simulation parameters
 covbins <- tibble(coverage = c("[0, 1)", "[1, 2)", "[2, 5)", "[5, 10)",
@@ -321,6 +324,9 @@ length distribution, simulated aDNA damage, and coverage averaged across the fiv
 
 ## Panel d - log2-ratio between C-to-T and other substitutions
 
+Finally, we compared whether C-to-T substitutions that are indicative of an effect of ancient DNA
+damage in the consensus calling of contig sequences were more frequent than other substitutions.
+
 ```{r mismatches_logratio_plt, fig.height = 3, fig.width = 7}
 mismatches_summary <- mismatches %>%
                       filter(covbin > 2) %>%
@@ -334,12 +340,13 @@ mismatches_summary <- mismatches %>%
                       pivot_longer(AC:Ins, names_to = "operation", values_to = "count") %>%
                       mutate(op_type = ifelse(operation == "CT", operation,
                                               ifelse(operation %in% c("Del", "Ins"), "Indel", "other_subst"))) %>%
-                      group_by(genome, rl, damage, coverage, op_type) %>%
+                      group_by(genome, rl, damage, damagelevel, coverage, covbin, op_type) %>%
                       summarise(meanCount = mean(count)) %>%
                       left_join(aln_stats %>%
-                                select(genome, rl, coverage, damage, alignmentlength) %>%
-                                group_by(genome, rl, coverage, damage) %>%
+                                select(genome, rl, covbin, damagelevel, alignmentlength) %>%
+                                group_by(genome, rl, covbin, damagelevel) %>%
                                 summarise(alignmentlength = mean(alignmentlength))) %>%
+                      select(-covbin, -damagelevel) %>%
                       pivot_wider(names_from = "op_type", values_from = "meanCount") %>%
                       mutate(logratio = log2(CT / other_subst))
 
