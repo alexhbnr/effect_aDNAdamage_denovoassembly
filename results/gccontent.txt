@@ -1,0 +1,4 @@
+sample	GC
+Msmithii	0.310342
+Tforsythia	0.46976
+Adentalis	0.72024

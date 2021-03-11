@@ -1,0 +1,4 @@
+sample	genomelength
+Msmithii	1853160
+Tforsythia	3405521
+Adentalis	3531393
