@@ -1,0 +1,15 @@
+name: effect_aDNA_denovoassembly
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - tabix
+  - samtools
+  - bioawk
+  - gargammel
+  - adapterremoval
+  - fastp
+  - megahit
+  - blast
+  - quast
